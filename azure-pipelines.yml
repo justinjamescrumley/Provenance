@@ -35,8 +35,18 @@ steps:
 #     provProfileSecureFile: $(ProfileFileName)
 #     removeProfile: true
 
-- task: Xcode@5
+- task: CmdLine@2
+  displayName: Bump build number
+  timeoutInMinutes: 1
   inputs:
+    script: |
+        ./Scripts/az-set-build-no.sh $(SchemaName) # SchemaName matches the target.
+
+- task: Xcode@5
+  displayName: Building project
+  timeoutInMinutes: 30
+  inputs:
+    actions: 'archive'
     scheme: '$(scheme)'
     xcWorkspacePath: 'Provenance.xcworkspace'
     xcodeVersion: '12' # Options: 8, 9, default, specifyPath
@@ -44,7 +54,12 @@ steps:
     packageApp: true
     destinationPlatformOption: iOS
     destinationSimulators: iPhone 12
-  displayName: Building project
+    provisioningProfileUuid: $(ProfileUUID)
+    exportMethod: $(ExportMethod)
+    exportOptions: 'plist'
+    exportOptionsPlist: $(ExportOptionsFileName)
+    archivePath: '$(Build.ArtifactStagingDirectory)/pack'
+    args: '-xcconfig release.xcconfig'
 
 # - task: Xcode@5
 #   inputs:
@@ -56,3 +71,17 @@ steps:
 #     destinationPlatformOption: iOS
 #     destinationSimulators: iPhone XS
 #   displayName: Running tests
+
+# - task: AppStoreRelease@1
+#   timeoutInMinutes: 25
+#   condition: ne(variables['Build.Reason'], 'PullRequest')
+#   inputs:
+#     serviceEndpoint: $(AppStoreServiceConnectionName)
+#     appIdentifier: $(BundleID)
+#     appType: 'iOS'
+#     ipaPath: '**/*.ipa'
+#     releaseTrack: 'TestFlight'
+#     shouldSkipWaitingForProcessing: true # don't wait
+#     shouldSkipSubmission: true # don't auto send to testers
+#   env:
+#     FASTLANE_ITC_TEAM_ID: $(ITCTeamID)
