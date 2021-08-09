@@ -15,7 +15,7 @@ variables:
     configuration: 'Debug'
   name: $(Build.SourceBranchName)
   tag: $(Build.BuildNumber)
-  CertificateFileName: 'itunes-adhoc.p12'
+  CertificateFileName: 'developer_cert.p12'
   ExportOptionsFileName: 'options.plist'
   ExportMethod: 'development'
   # xcode-version: '12.5.1'
