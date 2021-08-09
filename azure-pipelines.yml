@@ -51,11 +51,11 @@ jobs:
       keychain: 'temp'
       deleteCert: true
 
-  - task: InstallAppleProvisioningProfile@1
-    inputs:
-      provisioningProfileLocation: 'secureFiles'
-      provProfileSecureFile: $(ProfileFileName)
-      removeProfile: true
+  #- task: InstallAppleProvisioningProfile@1
+  #  inputs:
+  #    provisioningProfileLocation: 'secureFiles'
+  #    provProfileSecureFile: $(ProfileFileName)
+  #    removeProfile: true
 
   - task: Xcode@5
     inputs:
