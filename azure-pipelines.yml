@@ -65,6 +65,18 @@ steps:
     exportMethod: '$(ExportMethod)'
   displayName: Building project $(scheme)
 
+- task: Xcode@5
+  inputs:
+    scheme: 'ProvenanceTV'
+    xcWorkspacePath: '$(xcWorkspacePath)'
+    xcodeVersion: '$(xcodeVersion)'
+    exportPath: '$(agent.buildDirectory)/output/$(sdk)/$(configuration)'
+    packageApp: false
+    destinationPlatformOption: tvOS
+    useXcpretty: false
+    configuration: '$(configuration)'
+    exportMethod: '$(ExportMethod)'
+  displayName: Building project $(scheme) - tvOS
 # - task: Xcode@5
 #   inputs:
 #     actions: 'test'
