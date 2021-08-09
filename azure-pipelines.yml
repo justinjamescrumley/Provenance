@@ -70,13 +70,19 @@ steps:
     scheme: 'ProvenanceTV'
     xcWorkspacePath: '$(xcWorkspacePath)'
     xcodeVersion: '$(xcodeVersion)'
-    exportPath: '$(agent.buildDirectory)/output/$(sdk)/$(configuration)'
+    sdk: 'appletvos'
+    exportPath: '$(agent.buildDirectory)/output/appletvos/$(configuration)'
     packageApp: false
     destinationPlatformOption: tvOS
     useXcpretty: false
     configuration: '$(configuration)'
     exportMethod: '$(ExportMethod)'
   displayName: Building project $(scheme) - tvOS
+  env:
+    sdk: 'appletvos'
+    scheme: 'ProvenanceTV'
+    destinationPlatformOption: tvOS
+
 # - task: Xcode@5
 #   inputs:
 #     actions: 'test'
